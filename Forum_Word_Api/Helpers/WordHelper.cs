@@ -2,27 +2,33 @@
 {
     public static class WordHelper
     {
-        public static List<string> GetFilsAsList(string filePath)
+
+        public static List<string> GetBannedWordsList()
         {
-            var textList = new List<string>();
-
-            if (File.Exists(filePath))
-            {
-                using (StreamReader file = new StreamReader(filePath))
-                {
-                    int counter = 0;
-                    string ln;
-
-                    while ((ln = file.ReadLine()) != null)
-                    {
-                        textList.Add(ln);
-                        counter++;
-                    }
-                    file.Close();
-                }
-            }
-
-            return textList;
+            string textFile = @"C:\Users\stevie.leveque\Desktop\C# tests\exo-forum-tests-unitaires\insults.txt";
+            List<string> bannedWords = File.ReadAllLines(textFile).ToList();
+            return bannedWords;
         }
+
+        public static string BannewWordsWithStars(string word)
+        {
+
+            var wordWithStars = "";
+            List<string> bannedWords = WordHelper.GetBannedWordsList();
+
+            if (bannedWords.Contains(word))
+            {
+                wordWithStars += word[0];
+                var wordWithStarsLastLetter = word.Last();
+                for (int i = 1; i < word.Length - 1; i++)
+                {
+                    wordWithStars += "*";
+                }
+                wordWithStars += word[word.Length - 1];
+
+            }
+            return wordWithStars;
+        }
+
     }
 }
