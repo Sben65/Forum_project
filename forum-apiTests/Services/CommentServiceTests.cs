@@ -103,5 +103,36 @@ namespace forum_api.Services.Tests
                 _service.FindById(id);
             });
         }
+
+        [TestMethod()]
+        public void DeleteWithNoArgumentShouldNotFail()
+        {
+            // given
+            var service = this.CreateService();
+
+            this.mockCommentRepository.Setup(x => x.Delete(It.IsAny<int>()));
+
+            // act
+            service.Delete(0);
+
+            // Assert
+            this.mockCommentRepository.Verify(x => x.Delete(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod()]
+        public void UpdateWithGoodArgumentShouldNotFail()
+        {
+            // given
+            var service = this.CreateService();
+            var newTopic = this._comments.ElementAt(0);
+
+            this.mockCommentRepository.Setup(x => x.Update(It.IsAny<Comment>()));
+
+            // act
+            service.Update(newTopic);
+
+            // Assert
+            this.mockCommentRepository.Verify(x => x.Update(It.IsAny<Comment>()), Times.Once());
+        }
     }
 }
