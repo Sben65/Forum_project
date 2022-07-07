@@ -40,6 +40,17 @@ namespace forum_api.Services.Tests
                     Titre = "topic test 01",
                     Createur = "test C#",
                     Comments = new List<Comment>()
+                    {
+                        new Comment()
+                        {
+                            Id = 0,
+                            DateCreation = DateTime.Now,
+                            Createur = "test C#",
+                            DerniereModification = DateTime.Now,
+                            TopicIdTopic = 0,
+                            Contenue = ""
+                        }
+                    }
                 }
             };
         }
@@ -87,6 +98,23 @@ namespace forum_api.Services.Tests
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedValue, result);
+
+            this.mockRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        [DataRow(7)]
+        public void FindByIdWithInvalidArgumentShouldThrowAnexception(int id)
+        {
+            // Given
+            var service = this.CreateService();
+
+            this.mockTopicRepository
+                .Setup(x => x.FindById(It.Is<int>(x => x == id)))
+                .Throws (new InvalidOperationException(""));
+
+            // Assert
+            Assert.ThrowsException<InvalidOperationException>(() => service.FindById(id));
 
             this.mockRepository.VerifyAll();
         }

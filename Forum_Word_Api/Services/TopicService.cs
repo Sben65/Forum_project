@@ -38,7 +38,14 @@ namespace forum_api.Services
         /// <returns>topic.</returns>
         public Topic FindById(int id)
         {
-            return this._repository.FindById(id);
+            var topic = this._repository.FindById(id);
+
+            if (topic == null)
+            {
+                throw new InvalidOperationException($"the topic with id: {id} does not exist.");
+            }
+
+            return topic;
         }
 
         /// <summary>
