@@ -19,12 +19,12 @@
             if (bannedWords.Contains(word))
             {
                 wordWithStars += word[0];
-                var wordWithStarsLastLetter = word.Last();
+
                 for (int i = 1; i < word.Length - 1; i++)
                 {
                     wordWithStars += "*";
                 }
-                wordWithStars += word[word.Length - 1];
+                wordWithStars += word[^1];
 
             }
             return wordWithStars;
