@@ -33,7 +33,7 @@ namespace forum_api.Controllers
         [HttpPost("{idTopic}")]
         public IActionResult Create(int idTopic, Comment comment)
         {
-            this._service.Create(idTopic, comment);
+            this._service.Create(comment);
             return Ok("Created");
         }
 

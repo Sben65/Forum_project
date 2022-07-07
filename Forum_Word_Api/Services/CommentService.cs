@@ -45,9 +45,8 @@ namespace forum_api.Services
         /// </summary>
         /// <param name="idTopic">the topic id.</param>
         /// <param name="comment">the comment object.</param>
-        public void Create(int idTopic, Comment comment)
+        public void Create(Comment comment)
         {
-            comment.TopicIdTopic = idTopic;
             comment.DateCreation = DateTime.Now;
             comment.DerniereModification = DateTime.Now;
             this._repository.Create(comment);
