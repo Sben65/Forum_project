@@ -106,5 +106,38 @@ namespace forum_api.Services.Tests
             // Assert
             this.mockTopicRepository.Verify(x => x.Create(It.IsAny<Topic>()), Times.Once());
         }
+
+        [TestMethod()]
+        public void UpdateWithGoodArgumentShouldNotFail()
+        {
+            // given
+            var service = this.CreateService();
+            var newTopic = this.topicsList.ElementAt(0);
+
+            this.mockTopicRepository.Setup(x => x.Update(It.IsAny<Topic>()));
+
+            // act
+            service.Update(newTopic);
+
+            // Assert
+            this.mockTopicRepository.Verify(x => x.Update(It.IsAny<Topic>()), Times.Once());
+        }
+
+        [TestMethod()]
+        public void DeleteWithNoArgumentShouldNotFail()
+        {
+            // given
+            var service = this.CreateService();
+
+            this.mockTopicRepository.Setup(x => x.Delete(It.IsAny<int>()));
+            this.mockCommentService.Setup(x => x.DeleteAllCommentByTopicId(It.IsAny<int>()));
+
+            // act
+            service.Delete(0);
+
+            // Assert
+            this.mockTopicRepository.Verify(x => x.Delete(It.IsAny<int>()), Times.Once());
+            this.mockCommentService.Verify(x => x.DeleteAllCommentByTopicId(It.IsAny<int>()), Times.Once());
+        }
     }
 }
