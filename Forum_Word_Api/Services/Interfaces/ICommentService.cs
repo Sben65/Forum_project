@@ -8,8 +8,10 @@ namespace forum_api.Services.Interfaces
         void Delete(int id);
         Comment FindById(int id);
         List<Comment> FindAll();
+        List<Comment> FindCommentsByTopicsId(int topicId);
         void Update(Comment comment);
 
         void DeleteAllCommentByTopicId(int topicId);
+
     }
 }

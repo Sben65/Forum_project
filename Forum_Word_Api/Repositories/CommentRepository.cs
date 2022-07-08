@@ -22,6 +22,12 @@ namespace forum_api.Repositories
             return this._context.Comments.SingleOrDefault(c => c.Id == id);
         }
 
+        public virtual List<Comment> FindCommentsByTopicsId(int topicId)
+        {
+            List<Comment> comments = this._context.Comments.Where(c => c.TopicIdTopic == topicId).ToList();
+            return comments;
+        }
+
         public void Create(Comment comment)
         {
             this._context.Comments.Add(comment);

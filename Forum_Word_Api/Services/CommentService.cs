@@ -10,11 +10,15 @@ namespace forum_api.Services
         /// the Comment repository.
         /// </summary>
         private readonly ICommentRepository _repository;
+
+        private readonly ITopicService _topicService;
+
         private readonly IWordFilterService _wordFilterService;
 
-        public CommentService(ICommentRepository repository, IWordFilterService wordFilterService)
+        public CommentService(ICommentRepository repository, ITopicService topicService, IWordFilterService wordFilterService)
         {
             _repository = repository;
+            _topicService = topicService;
             _wordFilterService = wordFilterService;
         }
 
@@ -40,6 +44,12 @@ namespace forum_api.Services
                 throw new ArgumentException($"Le commentaire avec l'id {id} est introuvable.");
             }
             return comment;
+        }
+
+        public List<Comment> FindCommentsByTopicsId(int topicId)
+        {
+            List<Comment> comments = _repository.FindAll().Where(x => x.TopicIdTopic == topicId).ToList();
+            return comments;
         }
 
         /// <summary>
