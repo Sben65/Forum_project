@@ -76,7 +76,7 @@ namespace forum_api.Services.Tests
             this.mockWordFilterService.Setup(x => x.FilterWord(It.IsAny<string>())).Returns("");
 
             //ACT
-            service.Create(newComment);
+            service.Create(0,newComment);
 
             //ASSERT
             this.mockCommentRepository.Verify(x => x.Create(It.IsAny<Comment>()), Times.Once());

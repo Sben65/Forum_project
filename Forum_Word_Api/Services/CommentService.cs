@@ -47,10 +47,11 @@ namespace forum_api.Services
         /// </summary>
         /// <param name="idTopic">the topic id.</param>
         /// <param name="comment">the comment object.</param>
-        public void Create(Comment comment)
+        public void Create(int topicId, Comment comment)
         {
             comment.DateCreation = DateTime.Now;
             comment.DerniereModification = DateTime.Now;
+            comment.TopicIdTopic = topicId;
             comment.Contenue = this._wordFilterService.FilterWord(comment.Contenue);
             this._repository.Create(comment);
         }

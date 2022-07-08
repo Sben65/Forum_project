@@ -11,12 +11,10 @@ namespace forum_api.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly ICommentService _service;
-        private readonly IWordFilterService _serviceW;
 
-        public CommentsController(ICommentService service, IWordFilterService _serviceW)
+        public CommentsController(ICommentService service)
         {
             this._service = service;
-            this._serviceW = _serviceW;
         }
 
         [HttpGet]
@@ -35,7 +33,7 @@ namespace forum_api.Controllers
         [HttpPost("{idTopic}")]
         public IActionResult Create(int idTopic, Comment comment)
         {
-            this._service.Create(comment);
+            this._service.Create(idTopic, comment);
             return Ok("Created");
         }
 
