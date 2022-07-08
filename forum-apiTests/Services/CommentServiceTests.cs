@@ -24,15 +24,18 @@ namespace forum_api.Services.Tests
         private Mock<ICommentService> mockCommentService;
         private Mock<ICommentRepository> mockCommentRepository;
 
+        private Mock<IWordFilterService> mockWordFilterService;
+
         [TestInitialize]
         public void Initialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
             this.mockCommentService = this.mockRepository.Create<ICommentService>();
             this.mockCommentRepository = this.mockRepository.Create<ICommentRepository>();
+            this.mockWordFilterService = this.mockRepository.Create<IWordFilterService>();
 
             _repository = new Mock<CommentRepository>(null);
-            _service = new CommentService(_repository.Object);
+            _service = new CommentService(_repository.Object, this.mockWordFilterService.Object);
             _comments = new List<Comment>();
             _comments.Add(new Comment() { Id = 1, Createur = "Stevie", Contenue = ":)" });
             _comments.Add(new Comment() { Id = 2, Createur = "Ben", Contenue = ";)" });
@@ -41,7 +44,7 @@ namespace forum_api.Services.Tests
 
         private CommentService CreateService()
         {
-            return new CommentService(this.mockCommentRepository.Object);
+            return new CommentService(this.mockCommentRepository.Object, this.mockWordFilterService.Object);
         }
 
         [TestMethod]
@@ -66,8 +69,11 @@ namespace forum_api.Services.Tests
             //GIVEN
             var service = this.CreateService();
             var newComment = this._comments.ElementAt(0);
+            //var newContent = this._wordFilterService.FilterWord(this._comments[0].Contenue);
 
             this.mockCommentRepository.Setup(x => x.Create(It.IsAny<Comment>()));
+
+            this.mockWordFilterService.Setup(x => x.FilterWord(It.IsAny<string>())).Returns("");
 
             //ACT
             service.Create(newComment);
@@ -127,6 +133,8 @@ namespace forum_api.Services.Tests
             var newTopic = this._comments.ElementAt(0);
 
             this.mockCommentRepository.Setup(x => x.Update(It.IsAny<Comment>()));
+
+            this.mockWordFilterService.Setup(x => x.FilterWord(It.IsAny<string>())).Returns("");
 
             // act
             service.Update(newTopic);

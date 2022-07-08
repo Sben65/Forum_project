@@ -16,10 +16,16 @@ namespace forum_api.Services
         /// </summary>
         private readonly ICommentService _commentService;
 
-        public TopicService(ITopicRepository repository, ICommentService commentService)
+        /// <summary>
+        /// the comment service.
+        /// </summary>
+        private readonly IWordFilterService _wordFilterService;
+
+        public TopicService(ITopicRepository repository, ICommentService commentService, IWordFilterService wordFilterService)
         {
             _repository = repository;
             _commentService = commentService;
+            _wordFilterService = wordFilterService;
         }
 
         /// <summary>
@@ -56,6 +62,7 @@ namespace forum_api.Services
         {
             topic.DateCreation = DateTime.Now;
             topic.DateModification = DateTime.Now;
+            topic.Titre = this._wordFilterService.FilterWord(topic.Titre);
             this._repository.Create(topic);
         }
 
@@ -66,6 +73,7 @@ namespace forum_api.Services
         public void Update(Topic topic)
         {
             topic.DateModification = DateTime.Now;
+            topic.Titre = this._wordFilterService.FilterWord(topic.Titre);
             this._repository.Update(topic);
         }
 

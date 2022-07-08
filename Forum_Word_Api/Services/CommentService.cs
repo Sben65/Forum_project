@@ -10,10 +10,12 @@ namespace forum_api.Services
         /// the Comment repository.
         /// </summary>
         private readonly ICommentRepository _repository;
+        private readonly IWordFilterService _wordFilterService;
 
-        public CommentService(ICommentRepository repository)
+        public CommentService(ICommentRepository repository, IWordFilterService wordFilterService)
         {
             _repository = repository;
+            _wordFilterService = wordFilterService;
         }
 
         /// <summary>
@@ -49,6 +51,7 @@ namespace forum_api.Services
         {
             comment.DateCreation = DateTime.Now;
             comment.DerniereModification = DateTime.Now;
+            comment.Contenue = this._wordFilterService.FilterWord(comment.Contenue);
             this._repository.Create(comment);
         }
 
@@ -59,6 +62,7 @@ namespace forum_api.Services
         public void Update(Comment comment)
         {
             comment.DerniereModification = DateTime.Now;
+            comment.Contenue = this._wordFilterService.FilterWord(comment.Contenue);
             this._repository.Update(comment);
         }
 

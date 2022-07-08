@@ -22,6 +22,8 @@ namespace forum_api.Services.Tests
 
         private List<Topic> topicsList = new List<Topic>();
 
+        private Mock<IWordFilterService> mockWordFilterService;
+
         [TestInitialize]
         public void SetUp()
         {
@@ -29,6 +31,7 @@ namespace forum_api.Services.Tests
 
             this.mockTopicRepository = this.mockRepository.Create<ITopicRepository>();
             this.mockCommentService = this.mockRepository.Create<ICommentService>();
+            this.mockWordFilterService = this.mockRepository.Create<IWordFilterService>();
 
             this.topicsList = new List<Topic>()
             {
@@ -57,7 +60,7 @@ namespace forum_api.Services.Tests
 
         private TopicService CreateService()
         {
-            return new TopicService(this.mockTopicRepository.Object, this.mockCommentService.Object);
+            return new TopicService(this.mockTopicRepository.Object, this.mockCommentService.Object, this.mockWordFilterService.Object);
         }
 
         [TestMethod()]
@@ -128,6 +131,8 @@ namespace forum_api.Services.Tests
 
             this.mockTopicRepository.Setup(x => x.Create(It.IsAny<Topic>()));
 
+            this.mockWordFilterService.Setup(x => x.FilterWord(It.IsAny<string>())).Returns("");
+
             // act
             service.Create(newTopic);
 
@@ -143,6 +148,8 @@ namespace forum_api.Services.Tests
             var newTopic = this.topicsList.ElementAt(0);
 
             this.mockTopicRepository.Setup(x => x.Update(It.IsAny<Topic>()));
+
+            this.mockWordFilterService.Setup(x => x.FilterWord(It.IsAny<string>())).Returns("");
 
             // act
             service.Update(newTopic);
