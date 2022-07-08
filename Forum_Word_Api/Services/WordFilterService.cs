@@ -17,7 +17,7 @@ namespace forum_api.Services
         {
             foreach (var word in insultes)
             {
-                if (textWord.Contains(word))
+                if (textWord.Contains(word, StringComparison.OrdinalIgnoreCase))
                 {
                      string wordWithStars = "" + word[0];
 
@@ -25,7 +25,7 @@ namespace forum_api.Services
                     {
                         wordWithStars += "*";
                     }
-                    wordWithStars += word[^1];
+                    wordWithStars += word[word.Length - 1];
 
                     textWord = textWord.Replace(word, wordWithStars);
                 }
