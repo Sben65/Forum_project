@@ -20,30 +20,19 @@ namespace forum_api.Services.Tests
         public void SetUp()
         {
             this._wordFilterService = new WordFilterService();
-            this._sentenceWithInsults = "s**e s******d";
+            this._sentenceWithInsults = "s**e, s******d.";
         }
 
         [TestMethod()]
-        [DataRow("sale salopard")]
+        [DataRow("sale, salopard.")]
         public void FilterWordWithGoodArgumentShouldReturnSentenceWithWordsWithStars(string sentenceWithInsults)
         {
             // act
-            string sentenceToTest = _wordFilterService.FilterWord(sentenceWithInsults);
+            string result = _wordFilterService.FilterWord(sentenceWithInsults);
 
             // Assert
-            Assert.AreEqual(sentenceToTest, this._sentenceWithInsults);
-        }
-
-        [TestMethod()]
-        [DataRow("sale connard")]
-        public void FilterWordWithTestAndResultsWithSameType(string sentenceWithInsults)
-        {
-            // act
-            string sentenceToTest = _wordFilterService.FilterWord(sentenceWithInsults);
-
-            // Assert
-            Assert.IsInstanceOfType(sentenceWithInsults, typeof(string));
-            Assert.IsInstanceOfType(sentenceToTest, typeof(string));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result, this._sentenceWithInsults);
         }
     }
 }

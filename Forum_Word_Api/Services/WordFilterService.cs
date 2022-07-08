@@ -18,7 +18,7 @@ namespace forum_api.Services
 
         public string FilterWord(string textWord)
         {
-            var listMot = textWord.Split(new char[] { ' ', '.', '?', '!' });
+            var listMot = textWord.Split(new char[] { ' ', '.', '?', '!', ','});
 
             foreach (var mot in listMot)
             {
