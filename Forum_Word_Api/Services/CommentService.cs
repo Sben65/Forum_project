@@ -11,14 +11,11 @@ namespace forum_api.Services
         /// </summary>
         private readonly ICommentRepository _repository;
 
-        private readonly ITopicService _topicService;
-
         private readonly IWordFilterService _wordFilterService;
 
-        public CommentService(ICommentRepository repository, ITopicService topicService, IWordFilterService wordFilterService)
+        public CommentService(ICommentRepository repository, IWordFilterService wordFilterService)
         {
             _repository = repository;
-            _topicService = topicService;
             _wordFilterService = wordFilterService;
         }
 
