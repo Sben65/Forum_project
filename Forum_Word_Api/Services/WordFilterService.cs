@@ -5,9 +5,8 @@ namespace forum_api.Services
 {
     public class WordFilterService : IWordFilterService
     {
-        //private readonly string filePath = @"\Dico\insults.txt";
         private string filename = @"C:\dev\.Net\Forum\Forum_Word_Api\Services\Dico\insults.txt";
-        //string filePath = AppDomain.CurrentDomain.BaseDirectory + filename;
+        //private string filename = @"C:\Users\stevie.leveque\Desktop\C# tests\exo-forum-tests-unitaires\insults.txt";
 
         private readonly List<string> insultes = new List<string>();
 
