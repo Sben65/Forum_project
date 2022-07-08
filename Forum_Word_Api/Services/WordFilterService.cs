@@ -1,4 +1,5 @@
 ﻿using forum_api.Services.Interfaces;
+using System.Linq;
 
 namespace forum_api.Services
 {
@@ -18,19 +19,21 @@ namespace forum_api.Services
         public string FilterWord(string textWord)
         {
             var listMot = textWord.Split(new char[] { ' ' });
-            foreach (var word in insultes)
-            {
-                if (textWord.Contains(word, StringComparison.OrdinalIgnoreCase))
-                {
-                     string wordWithStars = "" + word[0];
 
-                    for (int i = 1; i < word.Length - 1; i++)
+            foreach (var mot in listMot)
+            {
+                if (this.insultes.Contains(mot))
+                {
+                    var wordWithStars = "" + mot[0];
+
+                    for (int i = 1; i < mot.Length - 1; i++)
                     {
                         wordWithStars += "*";
                     }
-                    wordWithStars += word[word.Length - 1];
 
-                    textWord = textWord.Replace(word, wordWithStars);
+                    wordWithStars += mot[^1];
+
+                    textWord = textWord.Replace(mot, wordWithStars);
                 }
             }
 

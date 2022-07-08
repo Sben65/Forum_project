@@ -22,7 +22,6 @@ namespace forum_api.Controllers
         [HttpGet]
         public IActionResult FindAll()
         {
-            this._serviceW.FilterWord("");
             return Ok(this._service.FindAll());
         }
 
