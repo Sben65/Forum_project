@@ -26,6 +26,9 @@ namespace forum_api.Services.Tests
 
         private Mock<IWordFilterService> mockWordFilterService;
 
+        private ITopicService _topicService;
+        private Mock<ITopicRepository> mockTopicRepository;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -34,17 +37,19 @@ namespace forum_api.Services.Tests
             this.mockCommentRepository = this.mockRepository.Create<ICommentRepository>();
             this.mockWordFilterService = this.mockRepository.Create<IWordFilterService>();
 
+            this.mockTopicRepository = this.mockRepository.Create<ITopicRepository>();
+
             _repository = new Mock<CommentRepository>(null);
-            _service = new CommentService(_repository.Object, this.mockWordFilterService.Object);
+            _service = new CommentService(_repository.Object, this._topicService, this.mockWordFilterService.Object);
             _comments = new List<Comment>();
-            _comments.Add(new Comment() { Id = 1, Createur = "Stevie", Contenue = ":)" });
-            _comments.Add(new Comment() { Id = 2, Createur = "Ben", Contenue = ";)" });
-            _comments.Add(new Comment() { Id = 3, Createur = "Thomas", Contenue = ":(" });
+            _comments.Add(new Comment() { Id = 1, Createur = "Stevie", Contenue = ":)", TopicIdTopic = 1 });
+            _comments.Add(new Comment() { Id = 2, Createur = "Ben", Contenue = ";)", TopicIdTopic = 1 });
+            _comments.Add(new Comment() { Id = 3, Createur = "Thomas", Contenue = ":(", TopicIdTopic = 1 });
         }
 
         private CommentService CreateService()
         {
-            return new CommentService(this.mockCommentRepository.Object, this.mockWordFilterService.Object);
+            return new CommentService(this.mockCommentRepository.Object, this._topicService, this.mockWordFilterService.Object);
         }
 
         [TestMethod]
@@ -61,6 +66,25 @@ namespace forum_api.Services.Tests
             Assert.IsNotNull(result);
             Assert.AreEqual(this._comments, result);
             this.mockRepository.VerifyAll();
+        }
+
+        [TestMethod()]
+        [DataRow(1)]
+        [DataRow(3)]
+        public void FindCommentsByTopicsIdTestParamsOkReturnList(int topicId)
+        {
+            //GIVEN
+            var service = this.CreateService();
+            List<Comment> commentaires = new List<Comment>()
+            { new Comment() { Id = 1, Createur = "Jim", TopicIdTopic = topicId },
+                new Comment() { Id = 1, Createur = "Jim", TopicIdTopic = topicId } };
+            this.mockCommentRepository.Setup(x => x.FindAll()).Returns(commentaires);
+
+            //ACT
+            var comments = service.FindCommentsByTopicsId(topicId);
+
+            //ASSERT
+            Assert.AreEqual(2, comments.Count);
         }
 
         [TestMethod()]

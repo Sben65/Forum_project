@@ -13,5 +13,6 @@ namespace forum_api.Repositories.Interfaces
         Comment FindById(int id);
 
         void Update(Comment comment);
+        //List<Comment> FindCommentsByTopicsId(int topicId);
     }
 }

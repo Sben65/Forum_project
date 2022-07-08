@@ -29,6 +29,11 @@ namespace forum_api.Controllers
             return Ok(this._service.FindById(id));
         }
 
+        [HttpGet("topic/{idTopic}")]
+        public IActionResult FindCommentsByTopicsId(int topicId)
+        {
+            return Ok(this._service.FindCommentsByTopicsId(topicId));
+        }
 
         [HttpPost("{idTopic}")]
         public IActionResult Create(int idTopic, Comment comment)
