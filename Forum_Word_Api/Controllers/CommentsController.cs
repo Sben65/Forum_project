@@ -11,15 +11,18 @@ namespace forum_api.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly ICommentService _service;
+        private readonly IWordFilterService _serviceW;
 
-        public CommentsController(ICommentService service)
+        public CommentsController(ICommentService service, IWordFilterService _serviceW)
         {
-            _service = service;
+            this._service = service;
+            this._serviceW = _serviceW;
         }
 
         [HttpGet]
         public IActionResult FindAll()
         {
+            this._serviceW.FilterWord("");
             return Ok(this._service.FindAll());
         }
 
