@@ -22,6 +22,8 @@ builder.Services.AddTransient<ITopicRepository, TopicRepository>();
 // SERVICES
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ITopicService, TopicService>();
+builder.Services.AddTransient<IWordFilterService, WordFilterService>();
+
 
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 {
